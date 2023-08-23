@@ -106,51 +106,6 @@ public class Connect {
     }
 
 
-    /*
-    public static void displayReviewsOrderByRatings() {
-        //1. establish connection
-        //2. create resultset
-        //3. Output the ratings incl. keyword from the table URLAUBE with printf
-
-
-        Connection conn = null;
-        try {
-            // Database parameters
-            String url = "jdbc:sqlite:/Users/myla/Documents/Java Projects/DBP 1/Databases/Campus02JDBC.db";
-            // Create a connection to the database
-            conn = DriverManager.getConnection(url);
-
-            System.out.println("Connection to Campus02JDBC database  has been established.");
-
-            Statement stmt = conn.createStatement();
-
-            // Query to retrieve Bewertungen ordered by Bewertungen
-            String query = "SELECT Schlagwort, Bewertungen FROM Urlaube ORDER BY Bewertungen DESC";
-            ResultSet rs = stmt.executeQuery(query);
-
-            System.out.println("Bewertungen ordered by Bewertungen:");
-
-            while (rs.next()) {
-                System.out.printf("Schlagwort: %s, Bewertungen: %f %n",
-                        rs.getString("Schlagwort"),
-                        rs.getFloat("Bewertungen"));
-            }
-
-        } catch (SQLException e) {
-            System.out.println(e.getMessage());
-        } finally {
-            try {
-                if (conn != null) {
-                    conn.close();
-                }
-            } catch (SQLException ex) {
-                System.out.println(ex.getMessage());
-            }
-        }
-    }
-
-     */
-
     public static void displayReviewsOrderByRatings() {
         Connection conn = null;
         try {
@@ -193,4 +148,41 @@ public class Connect {
         }
     }
 
+    public static void aufgabeNachmittagMittwoch() {
+        Connection conn = null;
+        try {
+            String url = "jdbc:sqlite:/Users/myla/Documents/Java Projects/DBP 1/Databases/Campus02JDBC.db";
+            conn = DriverManager.getConnection(url);
+
+            System.out.println("Connection to SQLite has been established.");
+
+            Statement stmt = conn.createStatement();
+
+            String query = "SELECT KommentareZuBewertungen.KommentarID, KommentareZuBewertungen.Kommentare, KommentareZuBewertungen.Person, Bewertungen.BewertungsId, Bewertungen.Kommentar FROM KommentareZuBewertungen " +
+                    "INNER JOIN Bewertungen ON KommentareZuBewertungen.KommentarID = Bewertungen.BewertungsId";
+            ResultSet rs = stmt.executeQuery(query);
+
+            System.out.println("Comments on Reviews ");
+
+            while (rs.next()) {
+                System.out.printf("KommentarID: %d, BewertungsId: %d, Reviews: %s, Comments: %s, Person: %s %n",
+                        rs.getInt("KommentarID"),
+                        rs.getInt("BewertungsId"),
+                        rs.getString("Kommentar"),
+                        rs.getString("Kommentare"),
+                rs.getString("Person"));
+            }
+
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        } finally {
+            try {
+                if (conn != null) {
+                    conn.close();
+                }
+            } catch (SQLException ex) {
+                System.out.println(ex.getMessage());
+            }
+        }
+    }
 }
