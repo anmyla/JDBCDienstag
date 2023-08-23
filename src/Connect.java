@@ -163,16 +163,21 @@ public class Connect {
 
             Statement stmt = conn.createStatement();
 
-            // Query to retrieve Schlagwort and Bewertungen from the Urlaube table
-            String query = "SELECT Schlagwort, Bewertungen FROM Urlaube ORDER BY Bewertungen DESC";
+            //Query to retrieve Schlagwort and BewertungsID using inner join
+            //Schlagwort from Urlaube table and BewertungsID from Bewetungen table.
+
+            String query = "SELECT Urlaube.Schlagwort, Bewertungen.Punkte, Bewertungen.Kommentar FROM Urlaube " +
+                    "INNER JOIN Bewertungen ON Urlaube.UrlaubsID = Bewertungen.UrlaubsID " +
+                    "ORDER BY Punkte DESC";
             ResultSet rs = stmt.executeQuery(query);
 
-            System.out.println("Bewertungen ordered by Bewertungen:");
+            System.out.println("Holiday Categories by Ratings ");
 
             while (rs.next()) {
-                System.out.printf("Schlagwort: %s, Bewertungen: %f %n",
+                System.out.printf("Category: %s, Rating: %d, Reviews: %s %n",
                         rs.getString("Schlagwort"),
-                        rs.getFloat("Bewertungen"));
+                        rs.getInt("Punkte"),
+                        rs.getString("Kommentar"));
             }
 
         } catch (SQLException e) {
