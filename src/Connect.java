@@ -1,14 +1,8 @@
 
 import java.sql.*;
 
-/**
- *
- * @author sqlitetutorial.net
- */
 public class Connect {
-    /**
-     * Connect to a sample database
-     */
+
     public static void connect() {
         Connection conn = null;
         try {
